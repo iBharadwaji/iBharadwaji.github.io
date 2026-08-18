@@ -1,0 +1,7 @@
+title: Bharadwaj Sudula
+description: Notes on SystemVerilog, UVM, Computer Architecture, and more
+theme: minima
+markdown: kramdown
+
+header_pages:
+  - about.md
