@@ -1,12 +1,11 @@
 ---
-layout: home
+layout: page
 title: Home
+permalink: /
 ---
 
-Hi, I’m Bharadwaj.
+# Sections
 
-This website contains my notes and posts on:
-
-- SystemVerilog
-- UVM
-- Computer Architecture
+- [SV](/sv/)
+- [UVM](/uvm/)
+- [CompArch](/comparch/)
