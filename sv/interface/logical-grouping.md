@@ -33,3 +33,30 @@ module axi_master (
   // ... many more signals ...
 );
 endmodule
+
+
+With an interface
+The same connection can be represented by one interface port.
+
+interface axi_if (input logic clk);
+  logic rst_n;
+  logic [31:0] awaddr, wdata;
+  logic [3:0]  wstrb;
+  logic awvalid, wvalid, awready, wready, bvalid, bready;
+  logic [1:0] bresp;
+
+  clocking cb @(posedge clk);
+    output awaddr, wdata, wstrb, awvalid, wvalid;
+    input  awready, wready, bvalid, bready, bresp;
+  endclocking
+
+  modport master (clocking cb, output rst_n);
+endinterface
+
+module axi_master (axi_if.master m);
+  // Access through m.cb.awaddr, m.cb.wvalid, ...
+endmodule
+
+Result
+The top-level module now connects one axi_if instance instead of dozens of wires.
+
