@@ -17,6 +17,7 @@ Reduces port-list length and makes hierarchy easier to read.
 A 16-bit AXI-Lite style master can easily need around 30 ports.
 
 ```systemverilog
+
 module axi_master (
   input  logic        clk,
   input  logic        rst_n,
@@ -34,9 +35,12 @@ module axi_master (
 );
 endmodule
 
+```
 
 With an interface
 The same connection can be represented by one interface port.
+
+```systemverilog
 
 interface axi_if (input logic clk);
   logic rst_n;
@@ -56,6 +60,8 @@ endinterface
 module axi_master (axi_if.master m);
   // Access through m.cb.awaddr, m.cb.wvalid, ...
 endmodule
+
+```
 
 Result
 The top-level module now connects one axi_if instance instead of dozens of wires.
