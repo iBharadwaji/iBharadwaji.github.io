@@ -4,6 +4,10 @@ title: CompArch
 permalink: /comparch/
 ---
 
-# CompArch
+# Computer Architecture
 
-Add your computer architecture topics here.
+Notes and study material about processor organization, instruction-level parallelism, memory systems, and modern CPU microarchitecture.
+
+## Topics
+
+* [RISC-V studies](/comparch/riscv/)
