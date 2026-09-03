@@ -18,15 +18,15 @@ Five registered compute stages, each handing off to the next with valid signalli
 | --- | --- |
 | **Multiply** | Eight parallel partial-product units, each computing two products, for 16 multiply-accumulates per cycle |
 | **Accumulate** | Adder tree reducing the eight partial results to one convolution output |
-| **ReLU** | Activation applied to the accumulated result |
-| **Average pool** | Pairwise averaging across adjacent activated outputs |
+| **Activation** | Piecewise: pass positives, zero a dead band, quarter the rest |
+| **Average pool** | 2x2 mean over two horizontal neighbours from each of two rows |
 | **Clip** | Saturating requantization back to signed 8-bit |
 
 ## Feeding the datapath
 
 The convolution window needs four rows of the feature map available at once, so the design keeps a **four-row sliding line buffer** of 4 x 1024 elements. As the window advances horizontally, the same buffered rows are reused; when it advances vertically, the oldest row is replaced by the next one streaming in from DRAM. This is what makes it a streaming design rather than one that requires the whole feature map in local memory.
 
-Activation output goes into **ping-pong buffers** of 2 x 1024 elements, so pooling can consume one buffer while the convolution pipeline fills the other. Without that, pooling would stall the datapath every time it needed a pair of adjacent results.
+Activation output goes into **ping-pong buffers** of 2 x 1024 elements. Pooling is 2x2, so it needs two horizontally adjacent values from *two different rows* at once — one buffer holds each row. Without the pair, pooling could not start until a whole second row existed, and the datapath would stall.
 
 Both DRAM sides use burst read and write controllers behind a start/ready handshake — one path loading the 16 kernel weights at startup, the other streaming feature-map rows in and results out.
 
@@ -53,7 +53,9 @@ Storing the whole feature map would need 1024 x 1024 elements of on-chip memory.
 
 ### Why ping-pong buffers
 
-Pooling consumes pairs of adjacent activated outputs, so it cannot start until the second of a pair exists. With a single buffer the convolution pipeline would stall whenever pooling was reading. Two buffers let one be filled while the other is drained, decoupling producer from consumer. It is double-buffering, the same idea as a graphics back buffer.
+2x2 pooling needs four values: two horizontal neighbours from one row and the two directly beneath them. The two buffers hold those two rows, so pooling sums a pair from each and shifts right by two. With a single buffer the convolution pipeline would stall whenever pooling was reading. It is double-buffering, the same idea as a graphics back buffer.
+
+The shift amount is the tell. A `>>> 1` would be a two-point average; the design shifts by two because it is averaging four values.
 
 ### Reuse is what makes it efficient
 
@@ -67,9 +69,19 @@ Two 8-bit signed values multiply into 16 bits; the partial products carry 17 to 
 
 A wrapped overflow turns a large positive activation into a large negative one — the worst possible error for a network, since it inverts the meaning of a strong response. Clamping to the representable maximum preserves the ordering of activations even when it loses magnitude. Saturating arithmetic is standard in fixed-point DSP for exactly this reason.
 
-### Why ReLU is nearly free in hardware
+### The activation is not a plain ReLU
 
-`max(0, x)` on a signed number is a sign-bit test and a mux. That is one of the underappreciated reasons ReLU displaced sigmoid and tanh in practice: those need lookup tables or polynomial approximation, while ReLU costs almost nothing in gates.
+```text
+x > 0        ->  x
+-4 < x <= 0  ->  0
+x <= -4      ->  (x + 3) >>> 2
+```
+
+Three regions: pass-through for positives, a dead band that flattens small negatives to zero, and a leaky quarter-slope tail for anything strongly negative. A plain ReLU would clamp every negative to zero; this keeps a scaled version of large negative responses while discarding weak ones as noise.
+
+The `+ 3` before the arithmetic shift is the detail worth noticing. An arithmetic right shift floors, so `-9 >>> 2` gives `-3` rather than the `-2` you get from truncating toward zero. Adding `2^k - 1` before shifting a negative value corrects that, which matters because a systematic bias toward negative accumulates across a whole feature map.
+
+That said, the reason activations of this shape are attractive in hardware still holds: every region is a comparison, a shift and a mux. No lookup table, no polynomial — which is why sigmoid and tanh lost out in practice.
 
 ### Questions worth being ready for
 
