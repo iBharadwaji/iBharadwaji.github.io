@@ -9,3 +9,4 @@ permalink: /
 - [SV](/sv/)
 - [UVM](/uvm/)
 - [CompArch](/comparch/)
+- [Projects](/projects/)
