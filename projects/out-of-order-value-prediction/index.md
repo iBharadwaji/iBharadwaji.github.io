@@ -6,7 +6,9 @@ permalink: /projects/out-of-order-value-prediction/
 
 # Out-of-order RISC-V core model with value prediction
 
-I implemented stride value prediction inside a cycle-accurate C++ model of an out-of-order RISC-V core, then designed an original extension — a squash-triggered selective filter — that lifted harmonic-mean IPC across 15 SPEC benchmarks from **1.658 to 2.032, a 22.5% improvement**, while staying 10 KB under the storage budget.
+I implemented stride value prediction inside a cycle-accurate C++ model of an out-of-order RISC-V core, and designed an original extension on top of it: a squash-triggered selective filter. The complete implementation raised harmonic-mean IPC across 15 SPEC benchmarks from **1.658 to 2.032 — a 22.5% gain over a baseline with no value prediction** — using 22 KB of a 32 KB storage budget.
+
+That figure covers the whole subsystem: stride predictor, prediction queue and filter together, measured against a machine doing no value prediction at all. The competition harness fixes the baseline processor and asks what your predictor buys, so that is the comparison it reports.
 
 Value prediction is a strange idea the first time you meet it. Branch prediction guesses *where* control flow goes. Value prediction guesses *what a result will be*, hands that guess to dependent instructions before the producer has executed, and breaks the data dependency outright. When it works, a chain of dependent operations stops being a chain.
 
@@ -52,13 +54,13 @@ Three small counters per entry, 24 bits in total, that gate the *consumer* side 
 
 The design deliberately intervenes at the point of *use* rather than at training. Every mandatory rule survives untouched: the five specified fields, retire-time in-order queue-driven training, training from computed values, confidence reset on stride mismatch, unchanged eligibility logic, and full-pipeline squash recovery. To the specification, a filtered prediction is indistinguishable from an entry that simply chose not to predict.
 
-Storage came to 176 bits per entry across 1024 entries — **22 KB against a 32 KB cap**, of which my three fields account for 3 KB.
+Storage came to 176 bits per entry across 1024 entries — **22 KB against a 32 KB cap** — of which the specified five fields account for 19 KB and my three add 3 KB.
 
 ## Results
 
 Fifteen SPEC CPU2006 and CPU2017 benchmarks, 10 million instructions each:
 
-| Benchmark | Baseline IPC | With filter | Change |
+| Benchmark | No value prediction | Full implementation | Change |
 | --- | --- | --- | --- |
 | 429.mcf | 0.82 | 1.68 | +105% |
 | 623.xalancbmk_s | 1.05 | 1.86 | +77% |
@@ -95,7 +97,13 @@ This is what makes the whole project trustworthy. The checker does not care that
 
 ### The one-sentence version
 
-I found that the specified recovery scheme leaves a 45-cycle window in which a known-bad predictor entry keeps firing, added three counters to gate the consumer side during that window, and got 22.5% harmonic-mean IPC for 3 KB of extra storage.
+I implemented stride value prediction on an out-of-order RISC-V model, found that the specified recovery scheme leaves a 45-cycle window in which a known-bad predictor entry keeps firing, and added three counters to gate the consumer side during that window. The complete subsystem gained 22.5% harmonic-mean IPC over a no-value-prediction baseline, in 22 KB of a 32 KB budget.
+
+### What the 22.5% does and does not isolate
+
+It is the gain from the entire value-prediction subsystem against a machine with none. It is **not** the filter's own marginal contribution over the specified predictor — no run in my data isolates that, because the competition harness only ever compares against the fixed no-VP baseline.
+
+If asked what the filter specifically bought, the honest answer is that I do not have that measurement, and that my sense is it was small: the stride predictor was already capturing most of the available benefit, and the filter's job was to stop giving some of it back. Worth saying plainly rather than implying the whole gain came from the extension.
 
 ### Why the filter works
 
