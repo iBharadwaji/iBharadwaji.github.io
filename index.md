@@ -10,3 +10,4 @@ permalink: /
 - [UVM](/uvm/)
 - [CompArch](/comparch/)
 - [Projects](/projects/)
+- [Interview Prep](/interview-prep/)
