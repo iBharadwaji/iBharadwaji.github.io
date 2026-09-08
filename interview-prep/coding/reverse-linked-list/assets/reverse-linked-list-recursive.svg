@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" role="img" aria-labelledby="t d"><title id="t">Reversing a linked list recursively, showing what one frame does while unwinding</title><desc id="d">The recursion descends untouched to the tail, where the base case returns the last node as the new head. On the way back up, each frame finds that its own next pointer was never modified, so it still points at the node that is now the tail of the already reversed sublist. Step one sets that successor to point back at the current node. Step two sets the current node's next to null, making it the new tail.</desc><style>
+  .bg{fill:#07111f}.panel{fill:#0e1b2b;stroke:#29405a;stroke-width:2}
+  .title{font:700 30px system-ui,sans-serif;fill:#f5f8fc}.label{font:600 20px system-ui,sans-serif;fill:#f5f8fc}
+  .small{font:17px system-ui,sans-serif;fill:#a8b7c8}.tiny{font:14px system-ui,sans-serif;fill:#a8b7c8}
+  .node{fill:#16283c;stroke:#3b556f;stroke-width:2}
+  .code{font:600 16px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#f5f8fc}
+  .wire{fill:none;stroke:#9fb0c4;stroke-width:3;stroke-linecap:round}
+  .tag{fill:#0c2130;stroke-width:2}.tagtxt{font:600 15px system-ui,sans-serif}
+  .badge{font:700 15px system-ui,sans-serif;fill:#07111f}
+</style><defs>
+<marker id="a" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5 0 9z" fill="#9fb0c4"/></marker>
+<marker id="aAmber" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5 0 9z" fill="#ffb454"/></marker>
+<marker id="aCyan" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5 0 9z" fill="#31d7e8"/></marker>
+</defs>
+<rect width="1000" height="700" class="bg"/>
+<text x="50" y="48" class="title">Reverse a linked list: recursion</text>
+
+<rect x="50" y="76" width="150" height="44" rx="12" fill="#0c2130" stroke="#29405a" stroke-width="2"/><text x="125" y="104" text-anchor="middle" class="code">reverse(1)</text>
+<path d="M206 98H244" class="wire" marker-end="url(#a)"/>
+<rect x="250" y="76" width="150" height="44" rx="12" fill="#0c2130" stroke="#29405a" stroke-width="2"/><text x="325" y="104" text-anchor="middle" class="code">reverse(2)</text>
+<path d="M406 98H444" class="wire" marker-end="url(#a)"/>
+<rect x="450" y="76" width="150" height="44" rx="12" fill="#0c2130" stroke="#65e3a5" stroke-width="2"/><text x="525" y="104" text-anchor="middle" class="code">reverse(3)</text>
+<text x="618" y="103" class="small">base case returns 3, the old tail, as newHead</text>
+
+<rect x="50" y="150" width="900" height="350" rx="26" class="panel"/>
+<text x="85" y="186" class="label">What one frame does while unwinding</text>
+
+<text x="85" y="282" class="small">after the</text><text x="85" y="302" class="small">call returns</text>
+<rect x="300" y="212" width="86" height="26" rx="13" class="tag" stroke="#31d7e8"/><text x="343" y="230" text-anchor="middle" class="tagtxt" fill="#31d7e8">newHead</text><path d="M343 238V248" stroke="#31d7e8" stroke-width="2"/>
+<rect x="300" y="248" width="86" height="50" rx="10" class="node"/><text x="343" y="280" text-anchor="middle" class="label">3</text>
+<rect x="480" y="248" width="86" height="50" rx="10" class="node"/><text x="523" y="280" text-anchor="middle" class="label">2</text>
+<path d="M386 273H474" class="wire" marker-end="url(#a)"/>
+<path d="M566 273H650" class="wire" marker-end="url(#a)"/><text x="660" y="279" class="small">null</text>
+<rect x="480" y="330" width="86" height="50" rx="10" class="node"/><text x="523" y="362" text-anchor="middle" class="label">1</text>
+<path d="M523 330V306" stroke="#31d7e8" stroke-width="3" marker-end="url(#aCyan)"/>
+<rect x="370" y="342" width="86" height="26" rx="13" class="tag" stroke="#ffb454"/><text x="413" y="360" text-anchor="middle" class="tagtxt" fill="#ffb454">head</text><path d="M456 355H480" stroke="#ffb454" stroke-width="2"/>
+<text x="580" y="349" class="tiny">head-&gt;next was never touched by the recursion,</text><text x="580" y="369" class="tiny">so it still reaches the tail of the reversed part</text>
+
+<text x="85" y="452" class="small">after both</text><text x="85" y="472" class="small">rewires</text>
+<rect x="300" y="384" width="86" height="26" rx="13" class="tag" stroke="#31d7e8"/><text x="343" y="402" text-anchor="middle" class="tagtxt" fill="#31d7e8">newHead</text><path d="M343 410V420" stroke="#31d7e8" stroke-width="2"/>
+<rect x="660" y="384" width="86" height="26" rx="13" class="tag" stroke="#ffb454"/><text x="703" y="402" text-anchor="middle" class="tagtxt" fill="#ffb454">head</text><path d="M703 410V420" stroke="#ffb454" stroke-width="2"/>
+<rect x="300" y="420" width="86" height="50" rx="10" class="node"/><text x="343" y="452" text-anchor="middle" class="label">3</text>
+<rect x="480" y="420" width="86" height="50" rx="10" class="node"/><text x="523" y="452" text-anchor="middle" class="label">2</text>
+<rect x="660" y="420" width="86" height="50" rx="10" class="node"/><text x="703" y="452" text-anchor="middle" class="label">1</text>
+<path d="M386 445H474" class="wire" marker-end="url(#a)"/>
+<path d="M566 445H654" fill="none" stroke="#ffb454" stroke-width="3" stroke-linecap="round" marker-end="url(#aAmber)"/>
+<circle cx="610" cy="445" r="12" fill="#ffb454"/><text x="610" y="451" text-anchor="middle" class="badge">1</text>
+<path d="M746 445H830" fill="none" stroke="#ffb454" stroke-width="3" stroke-linecap="round" marker-end="url(#aAmber)"/>
+<circle cx="788" cy="445" r="12" fill="#ffb454"/><text x="788" y="451" text-anchor="middle" class="badge">2</text>
+<text x="842" y="451" class="small">null</text>
+
+<rect x="50" y="524" width="430" height="64" rx="14" fill="#0c2130" stroke="#ffb454" stroke-width="2"/>
+<circle cx="82" cy="556" r="14" fill="#ffb454"/><text x="82" y="562" text-anchor="middle" class="badge">1</text>
+<text x="112" y="551" class="code">head-&gt;next-&gt;next = head</text><text x="112" y="574" class="tiny">successor points back at me</text>
+
+<rect x="520" y="524" width="430" height="64" rx="14" fill="#0c2130" stroke="#ffb454" stroke-width="2"/>
+<circle cx="552" cy="556" r="14" fill="#ffb454"/><text x="552" y="562" text-anchor="middle" class="badge">2</text>
+<text x="582" y="551" class="code">head-&gt;next = nullptr</text><text x="582" y="574" class="tiny">I become the new tail</text>
+
+<text x="500" y="632" text-anchor="middle" class="label">The recursion rewires downstream but never touches head's own pointer.</text>
+<text x="500" y="666" text-anchor="middle" class="small">That is why the stitch is O(1), and why newHead propagates up unchanged.</text>
+</svg>
