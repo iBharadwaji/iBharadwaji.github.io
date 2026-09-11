@@ -6,4 +6,8 @@ permalink: /uvm/
 
 # UVM
 
-Add your UVM topics here.
+Beginner-focused UVM notes organized for learning, revision, and verification interview preparation.
+
+## Topics
+
+- [Reporting](/uvm/reporting/)

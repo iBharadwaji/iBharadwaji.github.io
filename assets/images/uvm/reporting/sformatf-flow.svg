@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 360" role="img" aria-labelledby="title desc">
+  <title id="title">How sformatf creates a UVM report message</title>
+  <desc id="desc">A format template and runtime values enter sformatf, which returns a string. The string is passed to the uvm_info macro and appears as a UVM report message if reporting configuration allows it.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <style>
+      .label { font: 700 21px system-ui, -apple-system, Segoe UI, sans-serif; fill: #0f172a; }
+      .body { font: 17px system-ui, -apple-system, Segoe UI, sans-serif; fill: #334155; }
+      .code { font: 17px ui-monospace, SFMono-Regular, Consolas, monospace; fill: #0f172a; }
+      .step { font: 700 15px system-ui, -apple-system, Segoe UI, sans-serif; fill: #ffffff; }
+      .arrow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1400" height="360" rx="20" fill="#f8fafc"/>
+  <text x="700" y="40" text-anchor="middle" class="label">From runtime values to a UVM log message</text>
+
+  <g>
+    <rect x="35" y="80" width="300" height="190" rx="16" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+    <circle cx="65" cy="110" r="17" fill="#2563eb"/>
+    <text x="65" y="116" text-anchor="middle" class="step">1</text>
+    <text x="92" y="117" class="label">Inputs</text>
+    <text x="60" y="158" class="body">Format template</text>
+    <text x="60" y="185" class="code">"addr=0x%0h"</text>
+    <text x="60" y="225" class="body">Runtime value</text>
+    <text x="60" y="252" class="code">addr = 'h1000</text>
+  </g>
+
+  <path d="M 345 175 L 405 175" class="arrow"/>
+
+  <g>
+    <rect x="415" y="105" width="230" height="140" rx="16" fill="#f0fdf4" stroke="#16a34a" stroke-width="3"/>
+    <circle cx="445" cy="135" r="17" fill="#16a34a"/>
+    <text x="445" y="141" text-anchor="middle" class="step">2</text>
+    <text x="475" y="142" class="label">Format</text>
+    <text x="530" y="190" text-anchor="middle" class="code">$sformatf(...)</text>
+    <text x="530" y="218" text-anchor="middle" class="body">returns a string</text>
+  </g>
+
+  <path d="M 655 175 L 715 175" class="arrow"/>
+
+  <g>
+    <rect x="725" y="105" width="280" height="140" rx="16" fill="#fff7ed" stroke="#ea580c" stroke-width="3"/>
+    <circle cx="755" cy="135" r="17" fill="#ea580c"/>
+    <text x="755" y="141" text-anchor="middle" class="step">3</text>
+    <text x="785" y="142" class="label">String result</text>
+    <text x="865" y="193" text-anchor="middle" class="code">"addr=0x1000"</text>
+    <text x="865" y="220" text-anchor="middle" class="body">nothing printed yet</text>
+  </g>
+
+  <path d="M 1015 175 L 1075 175" class="arrow"/>
+
+  <g>
+    <rect x="1085" y="80" width="280" height="190" rx="16" fill="#faf5ff" stroke="#9333ea" stroke-width="3"/>
+    <circle cx="1115" cy="110" r="17" fill="#9333ea"/>
+    <text x="1115" y="116" text-anchor="middle" class="step">4</text>
+    <text x="1145" y="117" class="label">Report</text>
+    <text x="1225" y="162" text-anchor="middle" class="code">`uvm_info(...)</text>
+    <text x="1225" y="204" text-anchor="middle" class="body">If enabled, the log shows</text>
+    <text x="1225" y="235" text-anchor="middle" class="code">[DRIVER] addr=0x1000</text>
+  </g>
+
+  <rect x="310" y="305" width="780" height="36" rx="18" fill="#e2e8f0"/>
+  <text x="700" y="329" text-anchor="middle" class="body">Formatting creates the message text; UVM reporting controls whether it is emitted.</text>
+</svg>
