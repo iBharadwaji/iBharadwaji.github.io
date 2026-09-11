@@ -10,7 +10,7 @@ A collection of personal projects, experiments, and practical work across CPU mi
 
 ## Computer architecture and performance
 
-* [Out-of-order RISC-V core model with value prediction](/projects/out-of-order-value-prediction/) — a squash-triggered selective filter on top of stride value prediction, lifting harmonic-mean IPC 22.5% across 15 SPEC benchmarks within a 32 KB storage budget
+* [Out-of-order RISC-V core model with value prediction](/projects/out-of-order-value-prediction/) — stride value prediction plus an original squash-triggered filter, gaining 22.5% harmonic-mean IPC over a no-value-prediction baseline across 15 SPEC benchmarks
 * [Configurable cache and memory hierarchy simulator](/projects/cache-hierarchy-simulator/) — 112 simulations of design-space exploration; L1/L2 co-optimization cut average access time 11.7%, and stream buffers dropped miss rate from 25% to 0.1%
 * [Branch predictors: bimodal, gshare and hybrid](/projects/branch-prediction/) — gshare cut gcc misprediction from 11.17% to 6.37% where bimodal had saturated and could not improve at any table size
 * [Out-of-order instruction scheduling simulator](/projects/out-of-order-scheduling/) — a nine-stage superscalar pipeline across 88 design points, showing issue-queue requirements doubling with each doubling of width
