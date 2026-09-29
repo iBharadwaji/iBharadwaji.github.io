@@ -61,7 +61,7 @@ The worked framings include overlapping and non-overlapping detection, shift-reg
 
 <p>The full handbook is embedded below. If your browser does not display PDFs inline, <a href="{{ '/RTL/CommonQuestions/01_Sequence_Detector/assets/Sequence_Detector_Handbook.pdf' | relative_url }}">open the PDF directly</a> or use the download link above.</p>
 
-<iframe src="{{ '/RTL/CommonQuestions/01_Sequence_Detector/assets/Sequence_Detector_Handbook.pdf' | relative_url }}#view=FitH" title="Sequence Detectors - The Interview Handbook, 52 pages" width="100%" height="760" loading="lazy" style="display: block; border: 1px solid #ddd; border-radius: 4px;"></iframe>
+<iframe src="{{ '/RTL/CommonQuestions/01_Sequence_Detector/assets/Sequence_Detector_Handbook.pdf' | relative_url }}#zoom=page-width" title="Sequence Detectors - The Interview Handbook, 52 pages" width="100%" height="760" loading="lazy" style="display: block; width: 100%; border: 1px solid #ddd; border-radius: 4px;"></iframe>
 
 ## Companion material
 
