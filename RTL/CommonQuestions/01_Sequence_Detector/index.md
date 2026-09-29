@@ -57,12 +57,6 @@ The stream `1011011` also makes the overlap choice visible: an overlapping detec
 
 The worked framings include overlapping and non-overlapping detection, shift-register implementations, programmable patterns, long sync words, multiple patterns, input-valid bubbles, multiple bits per clock, glitch-free outputs, verification, and clock-domain crossings.
 
-## Read on this page
-
-<p>The full handbook is embedded below. If your browser does not display PDFs inline, <a href="{{ '/RTL/CommonQuestions/01_Sequence_Detector/assets/Sequence_Detector_Handbook.pdf' | relative_url }}">open the PDF directly</a> or use the download link above.</p>
-
-<iframe src="{{ '/RTL/CommonQuestions/01_Sequence_Detector/assets/Sequence_Detector_Handbook.pdf' | relative_url }}#zoom=page-width" title="Sequence Detectors - The Interview Handbook, 52 pages" width="100%" height="760" loading="lazy" style="display: block; width: 100%; border: 1px solid #ddd; border-radius: 4px;"></iframe>
-
 ## Companion material
 
 - [High-resolution illustration]({{ '/RTL/CommonQuestions/01_Sequence_Detector/assets/visual_drawn_2x.png' | relative_url }})
