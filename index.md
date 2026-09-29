@@ -7,6 +7,7 @@ permalink: /
 # Sections
 
 - [SV](/sv/)
+- [RTL](/RTL/)
 - [UVM](/uvm/)
 - [CompArch](/comparch/)
 - [Projects](/projects/)
