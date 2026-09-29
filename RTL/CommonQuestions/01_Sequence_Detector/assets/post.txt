@@ -1,0 +1,26 @@
+Every Ethernet frame starts with the same bit pattern.
+Seven bytes of alternating 1s and 0s, then 10101011. That last byte, the Start Frame Delimiter, is how the receiver knows where your data begins.
+
+The circuit that spots it is a sequence detector: one of the first things you learn in digital design, and one of the most common RTL interview questions.
+
+The same circuit runs all over real silicon:
+→ A CAN bus controller flags six identical bits in a row as a stuff error.
+→ SerDes links such as PCIe Gen1/2 and SATA hunt for the K28.5 comma to find where each 10-bit symbol starts.
+→ Every USB 2.0 packet opens with a SYNC field that the receiver locks onto.
+
+It sounds simple. Then the questions start:
+• The stream 101011 contains 1011. Does your FSM fire? Many first designs don't.
+• How many matches are in 1011011, one or two? Both answers can be right.
+• Mealy or Moore: why does one cycle of latency change your timing budget?
+• Swap the FSM for a shift register: why can it fire right after reset?
+• Make the pattern 64 bits wide at GHz rates. What breaks first?
+
+Interviewers frame this question at least 24 ways. One rule builds every version: the state is the longest prefix of the pattern that the incoming bits end with.
+
+I wrote it all up: the rule, the RTL, the waveforms, and the PPA trade-offs explained down to the transistor.
+
+Which of these would trip you up? Tell me in the comments.
+
+Read it here: bharadwajsudula.com
+
+#VLSI #RTL #ChipDesign #DigitalDesign #ASIC #FPGA
