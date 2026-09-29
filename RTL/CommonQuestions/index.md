@@ -10,4 +10,4 @@ Worked RTL interview topics, from clarifying the specification to explaining pow
 
 ## Handbooks
 
-- [01. Sequence Detector]({{ '/RTL/CommonQuestions/01_Sequence_Detector/' | relative_url }}) - a 52-page handbook covering the specification, FSM derivation, 24 interview framings, SystemVerilog listings, verification, and PPA trade-offs.
+- [01. Sequence Detector]({{ '/RTL/CommonQuestions/01_Sequence_Detector/' | relative_url }}) - read the complete handbook online, covering the specification, FSM derivation, 24 interview framings, SystemVerilog listings, verification, and PPA trade-offs.
